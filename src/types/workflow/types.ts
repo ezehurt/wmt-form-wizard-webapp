@@ -54,7 +54,6 @@ export interface TFlow {
 
 export interface TManager {
   flows: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     flow: string // Flow id
     status: TStatus // TODO
   }[]

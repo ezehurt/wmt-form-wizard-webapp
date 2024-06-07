@@ -11,7 +11,21 @@
     "build": "tsc && vite build --base=/wmt-form-wizard-webapp/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint",
+      "npm test",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
@@ -37,7 +51,9 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "husky": "^9.0.11",
     "jsdom": "^24.0.0",
+    "lint-staged": "^15.2.5",
     "msw": "^2.3.1",
     "prettier": "^3.3.0",
     "sass": "^1.77.3",
