@@ -5,6 +5,10 @@ import flow1 from "../responses/w/w1.json"
 import flow2 from "../responses/w/w2.json"
 import flow3 from "../responses/w/w3.json"
 import flow4 from "../responses/w/w4.json"
+import params1 from "../responses/w/p1.json"
+import params2 from "../responses/w/p2.json"
+import params3 from "../responses/w/p3.json"
+import params4 from "../responses/w/p4.json"
 
 import { VITE_BACKEND_API } from "../../viteEnvImports"
 
@@ -15,7 +19,10 @@ type FlowResponseBody = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parameters: any // TODO
 }
-
+type FlowParamsBody = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
+}
 // src/mocks/handlers.js
 export const handlers = [
   // Intercept "GET https://example.com/user" requests...
@@ -53,7 +60,39 @@ export const handlers = [
         default:
           response = undefined
       }
-      console.log("response in mock service worker", response)
+      return HttpResponse.json(response)
+    },
+  ),
+  http.get<FlowParams, FlowParamsBody>(
+    `${VITE_BACKEND_API}/params/:id`,
+    async ({ params }) => {
+      const { id } = params
+      let response: FlowParamsBody | undefined
+      console.log(id, "id")
+      switch (id) {
+        case "p1":
+          response = {
+            data: params1,
+          }
+          break
+        case "p2":
+          response = {
+            data: params2,
+          }
+          break
+        case "p3":
+          response = {
+            data: params3,
+          }
+          break
+        case "p4":
+          response = {
+            data: params4,
+          }
+          break
+        default:
+          response = undefined
+      }
       return HttpResponse.json(response)
     },
   ),

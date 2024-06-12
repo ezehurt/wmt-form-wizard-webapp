@@ -1,30 +1,30 @@
 import React from "react"
-import { Counter } from "../../../features/counter/Counter"
 import { Button } from "antd"
-import { LeftOutlined } from "@ant-design/icons"
+import { RightOutlined } from "@ant-design/icons"
+// import Form from "@rjsf/antd";
+// import validator from "@rjsf/validator-ajv8";
+// Make modifications to the theme with your own fields and widgets
 
 type QCWidgetPanelProps = {
-  text: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any
 }
 
-const QCWidgetPanel: React.FC<QCWidgetPanelProps> = ({ text }) => {
-  console.log(text)
+const QCWidgetPanel: React.FC<QCWidgetPanelProps> = ({ params, data }) => {
+  console.log("QCWidgetPanel", data.data, params)
   const handleCollapse = () => {
     console.log("colapse")
   }
   return (
     <section className="widget-panel">
-      <div>
-        <Counter />
-      </div>
-      <div>
-        <p>Widget2</p>
-      </div>
+      {/* <Form schema={params.schema} formData={data.data.formData} validator={validator} /> */}
       <Button
         className="widget-panel__floating-btn"
         type="primary"
         size="small"
-        icon={<LeftOutlined />} // TODO conditionally render based on horizontal arragement or vertical
+        icon={<RightOutlined />} // TODO conditionally render based on horizontal arragement or vertical
         onClick={() => handleCollapse}
       />
     </section>

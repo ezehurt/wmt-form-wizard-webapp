@@ -4,11 +4,13 @@ import { Layout, Menu, theme } from "antd"
 import Footer from "./components/layout/footer/Footer"
 import Loader from "./components/loader/Loader"
 import QCWidgetPanel from "./components/layout/qc-widget-panel/QCWidgetPanel"
-import { Quotes } from "./features/quotes/Quotes"
+
+import ParametersPanel from "./components/layout/parameters-panel/ParametersPanel"
 import {
-  useGetFlowsByIdQuery,
-  useGetFlowsQuery,
-} from "./store/api/flowApiSlice"
+  useGetFlowTemplateByIdQuery,
+  useGetFlowTemplatesQuery,
+} from "./store/api/flowTemplateApiSlice"
+import { useGetFlowParamByIdQuery } from "./store/api/flowParamsApiSlice"
 
 const { Content } = Layout
 const DEFAULT_FLOW_ID = "2"
@@ -21,8 +23,10 @@ const App: React.FC = () => {
   const [flows, setFlows] = React.useState<MenuProps["items"] | null>(null)
   const [selectedFlow, setSelectedFlow] = React.useState(DEFAULT_FLOW_ID)
   const { data, isError, isLoading, isSuccess } =
-    useGetFlowsByIdQuery(selectedFlow)
-  const { data: flowData, isSuccess: isSuccesFlow } = useGetFlowsQuery()
+    useGetFlowTemplateByIdQuery(selectedFlow)
+  const { data: flowData, isSuccess: isSuccesFlow } = useGetFlowTemplatesQuery()
+  const { data: paramsData, isSuccess: isSuccessParams } =
+    useGetFlowParamByIdQuery(selectedFlow)
 
   useEffect(() => {
     // Load here the flows: check if there is any other way to load the flows. It seems that this is the status of the flows
@@ -35,6 +39,18 @@ const App: React.FC = () => {
         }),
       )
       setFlows(formatedData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccesFlow])
+
+  useEffect(() => {
+    if (data) console.log("data", data)
+  }, [data, selectedFlow])
+
+  useEffect(() => {
+    // Load here the flows: check if there is any other way to load the flows. It seems that this is the status of the flows
+    if (isSuccessParams) {
+      console.log("paramsData", paramsData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccesFlow])
@@ -75,10 +91,17 @@ const App: React.FC = () => {
             >
               <main className="main-content">
                 <section className="main-content__section">
-                  <QCWidgetPanel text="QCWidgetPanel"></QCWidgetPanel>
-                  <div>
+                  <QCWidgetPanel
+                    params={data?.parameters}
+                    data={paramsData as unknown}
+                  ></QCWidgetPanel>
+                  <ParametersPanel
+                    params={data?.parameters}
+                    data={paramsData as unknown}
+                  />
+                  {/* <div>
                     <Quotes></Quotes>
-                  </div>
+                  </div> */}
                 </section>
                 <Footer text="footer"></Footer>
               </main>
