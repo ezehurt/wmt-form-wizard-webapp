@@ -4,7 +4,7 @@ import App from "./App.tsx"
 import "./index.css"
 import "./App.scss"
 import { Provider } from "react-redux"
-import { store } from "./app/store.ts"
+import { store } from "./store/store.ts"
 import { VITE_APP_SERVER } from "./viteEnvImports.ts"
 
 async function enableMocking() {

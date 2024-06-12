@@ -1,6 +1,12 @@
+//IMPORTS
+@import "../src/components/loader/loader";
+@import "../src/components/layout/qc-widget-panel/qc-widget-panel";
+
 .main-content {
   display: grid;
-  grid-template-rows: 3fr 3fr 1fr;
+  grid-template-rows: 6fr 1fr;
+  height: 100%;
+
   &__section {
     display: flex;
     flex-direction: row;
@@ -8,7 +14,24 @@
     border: 1px solid black;
     padding: 10px;
     margin: 8px;
+    overflow-y: auto;
+    &--vertical {
+      @extend .main-content__section;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      overflow: auto;
+    }
+
+    &--horizontal {
+      @extend .main-content__section;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      overflow: auto;
+    }
   }
+
   &__footer {
     display: flex;
     justify-content: space-between;
@@ -16,6 +39,7 @@
     border: 1px solid black;
     padding: 10px;
     margin: 8px;
+
     .ant-btn {
       margin: 8px;
       background-color: yellow; // Example of managing antd components

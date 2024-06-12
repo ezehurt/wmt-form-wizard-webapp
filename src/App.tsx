@@ -1,95 +1,92 @@
 import React, { useEffect } from "react"
-import { LaptopOutlined } from "@ant-design/icons"
 import type { MenuProps } from "antd"
-import { Button, Layout, Menu, theme } from "antd"
-import { Counter } from "./features/counter/Counter"
-import { getFlows } from "./services/flow/flow.service"
+import { Layout, Menu, theme } from "antd"
+import Footer from "./components/layout/footer/Footer"
+import Loader from "./components/loader/Loader"
+import QCWidgetPanel from "./components/layout/qc-widget-panel/QCWidgetPanel"
+import { Quotes } from "./features/quotes/Quotes"
+import {
+  useGetFlowsByIdQuery,
+  useGetFlowsQuery,
+} from "./store/api/flowApiSlice"
 
 const { Content } = Layout
+const DEFAULT_FLOW_ID = "2"
 
 const App: React.FC = () => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
-  console.log(import.meta.env.VITE_BACKEND_API) // "123"
+
   const [flows, setFlows] = React.useState<MenuProps["items"] | null>(null)
+  const [selectedFlow, setSelectedFlow] = React.useState(DEFAULT_FLOW_ID)
+  const { data, isError, isLoading, isSuccess } =
+    useGetFlowsByIdQuery(selectedFlow)
+  const { data: flowData, isSuccess: isSuccesFlow } = useGetFlowsQuery()
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getFlows()
-        const formatedData: MenuProps["items"] = data.map(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (item: any, index: number) => ({
-            key: (index + 1).toString(),
-            label: item.flow,
-          }),
-        )
-
-        setFlows(formatedData)
-      } catch (error) {
-        // Handle error here
-      }
+    // Load here the flows: check if there is any other way to load the flows. It seems that this is the status of the flows
+    if (isSuccesFlow) {
+      const formatedData: MenuProps["items"] = flowData.flows.map(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (item: any, index: number) => ({
+          key: (index + 1).toString(),
+          label: item.flow,
+        }),
+      )
+      setFlows(formatedData)
     }
-    fetchData()
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSuccesFlow])
 
-  return flows ? (
-    <Layout style={{ height: "100vh" }}>
-      <Menu
-        theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={["2"]}
-        items={flows}
-        style={{ flex: 1, minWidth: 0 }}
-      />
-      <Layout>
-        <Layout style={{ padding: "24px", height: "100%" }}>
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
+  useEffect(() => {
+    if (data) console.log("data", data)
+  }, [data, selectedFlow])
 
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <main className="main-content">
-              <section className="main-content__section">
-                <div>
-                  <Counter />
-                </div>
-                <div>
-                  <p>Widget2</p>
-                </div>
-                <div>
-                  <p>Widget3</p>
-                </div>
-              </section>
-              <section className="main-content__section">
-                <div>Parameters panel</div>
-              </section>
-              <footer className="main-content__footer">
-                <div>
-                  <Button type="primary" icon={<LaptopOutlined />}>
-                    QC
-                  </Button>
-                </div>
-                <div>
-                  <Button type="default">?</Button>
-                  <Button type="default">Save</Button>
-                  <Button type="primary">Run</Button>
-                  <Button type="primary">Run to this</Button>
-                </div>
-              </footer>
-            </main>
-          </Content>
+  const handleMenuClick: MenuProps["onClick"] = e => {
+    setSelectedFlow(`${e.key}`)
+  }
+
+  if (isLoading) return <Loader />
+  if (isError) return <div>There was an error!!!</div>
+
+  return (
+    flows &&
+    isSuccess && (
+      <Layout style={{ height: "100vh" }}>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={[selectedFlow]}
+          items={flows}
+          onClick={handleMenuClick}
+        />
+        <Layout>
+          <Layout style={{ padding: "24px", height: "100%" }}>
+            <Content
+              style={{
+                padding: 24,
+                margin: 0,
+                minHeight: 280,
+
+                background: colorBgContainer,
+                borderRadius: borderRadiusLG,
+              }}
+            >
+              <main className="main-content">
+                <section className="main-content__section">
+                  <QCWidgetPanel text="QCWidgetPanel"></QCWidgetPanel>
+                  <div>
+                    <Quotes></Quotes>
+                  </div>
+                </section>
+                <Footer text="footer"></Footer>
+              </main>
+            </Content>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
-  ) : (
-    <div>Loading...</div>
+    )
   )
 }
 
