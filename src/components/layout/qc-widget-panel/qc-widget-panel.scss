@@ -1,0 +1,12 @@
+.widget-panel {
+  position: relative;
+  padding: 4px;
+  margin: 8px;
+  padding: 10px;
+  &__floating-btn {
+    position: absolute;
+    bottom: 50%;
+    right: 0px;
+    z-index: 100;
+  }
+}
