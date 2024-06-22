@@ -15,6 +15,8 @@ import {
 } from "../../../features/counter/counterSlice"
 import { useEffect } from "react"
 import withCollapsible from "../withCollapsible"
+import { Button } from "antd"
+import Footer from "../footer/Footer"
 
 type ParametersPanelProps = {
   params: any
@@ -102,7 +104,7 @@ const ParametersPanel: React.FC<ParametersPanelProps> = ({
   return (
     params &&
     data && (
-      <div className="parameters-panel">
+      <div className="wmt-form-wizard">
         <Form
           schema={params.schema}
           uiSchema={params.schema}
@@ -111,8 +113,19 @@ const ParametersPanel: React.FC<ParametersPanelProps> = ({
           templates={{ ObjectFieldTemplate: CollapsibleMyComponent }}
           onChange={e => console.log(e)}
           onSubmit={e => console.log(e)}
-          children={true}
-        ></Form>
+          className="wmt-form-wizard__container"
+          // children={true} // uncomment this for buttons to show
+        >
+          <Footer text="hola">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="footer__button-groups--submit-btn"
+            >
+              Run
+            </Button>
+          </Footer>
+        </Form>
       </div>
     )
   )

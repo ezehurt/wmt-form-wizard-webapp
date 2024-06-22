@@ -1,0 +1,15 @@
+.wmt-form-wizard {
+  display: grid;
+  grid-template-rows: 6fr 1fr;
+  height: max-content;
+  max-height: 86vh;
+  &__container {
+    .form-group {
+      max-height: 80vh;
+      overflow: auto;
+    }
+  }
+  .footer__button-groups {
+    display: flex;
+  }
+}

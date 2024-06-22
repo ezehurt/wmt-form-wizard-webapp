@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
 import type { MenuProps } from "antd"
 import { Layout, Menu, theme } from "antd"
-import Footer from "./components/layout/footer/Footer"
 import Loader from "./components/loader/Loader"
 
-import ParametersPanel from "./components/layout/parameters-panel/ParametersPanel"
+import ParametersPanel from "./components/layout/wmt-form-wizard/WMTFormWizard"
 import {
   useGetFlowTemplateByIdQuery,
   useGetFlowTemplatesQuery,
@@ -89,20 +88,10 @@ const App: React.FC = () => {
               }}
             >
               <main className="main-content">
-                <section className="main-content__section">
-                  {/* <QCWidgetPanel
-                    params={data?.parameters}
-                    data={paramsData as unknown}
-                  ></QCWidgetPanel> */}
-                  <ParametersPanel
-                    params={data?.parameters}
-                    data={paramsData as unknown}
-                  />
-                  {/* <div>
-                    <Quotes></Quotes>
-                  </div> */}
-                </section>
-                <Footer text="footer"></Footer>
+                <ParametersPanel
+                  params={data?.parameters}
+                  data={paramsData as unknown}
+                />
               </main>
             </Content>
           </Layout>
