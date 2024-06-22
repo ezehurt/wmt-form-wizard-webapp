@@ -2,15 +2,18 @@ import type { PayloadAction } from "@reduxjs/toolkit"
 import { createAppSlice } from "../../store/createAppSlice"
 import type { AppThunk } from "../../store/store"
 import { fetchCount } from "./counterAPI"
+// import { setRootChildren } from "../../store/layout/rjsfSlice"
 
 export interface CounterSliceState {
   value: number
   status: "idle" | "loading" | "failed"
+  rootChildren: string[]
 }
 
 const initialState: CounterSliceState = {
   value: 0,
   status: "idle",
+  rootChildren: [""],
 }
 
 // If you are not using async thunks you can use the standalone `createSlice`.
@@ -34,6 +37,11 @@ export const counterSlice = createAppSlice({
     incrementByAmount: create.reducer(
       (state, action: PayloadAction<number>) => {
         state.value += action.payload
+      },
+    ),
+    setRootChildren: create.reducer(
+      (state, action: PayloadAction<string[]>) => {
+        state.rootChildren = action.payload
       },
     ),
     // The function below is called a thunk and allows us to perform async logic. It
@@ -66,15 +74,22 @@ export const counterSlice = createAppSlice({
   selectors: {
     selectCount: counter => counter.value,
     selectStatus: counter => counter.status,
+    selectRootChildren: counter => counter.rootChildren,
   },
 })
 
 // Action creators are generated for each case reducer function.
-export const { decrement, increment, incrementByAmount, incrementAsync } =
-  counterSlice.actions
+export const {
+  decrement,
+  increment,
+  incrementByAmount,
+  incrementAsync,
+  setRootChildren,
+} = counterSlice.actions
 
 // Selectors returned by `slice.selectors` take the root state as their first argument.
-export const { selectCount, selectStatus } = counterSlice.selectors
+export const selectors = counterSlice.selectors
+export const { selectCount, selectStatus, selectRootChildren } = selectors
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

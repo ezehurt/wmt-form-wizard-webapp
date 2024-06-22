@@ -5,6 +5,7 @@ import { counterSlice } from "../features/counter/counterSlice"
 import { quotesApiSlice } from "../features/quotes/quotesApiSlice"
 import { flowsTemplateApiSlice } from "./api/flowTemplateApiSlice"
 import { flowParamApiSlice } from "./api/flowParamsApiSlice"
+import { rjsfSlice } from "./layout/rjsfSlice"
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
@@ -13,6 +14,7 @@ const rootReducer = combineSlices(
   quotesApiSlice,
   flowsTemplateApiSlice,
   flowParamApiSlice,
+  rjsfSlice,
 )
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>

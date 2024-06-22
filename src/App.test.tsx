@@ -1,11 +1,11 @@
-import { render } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import App from "./App"
+import { renderWithProviders } from "./utils/test-utils"
 // import { expect } from "vitest"
 
 describe("App component", () => {
   test("renders Vite and React logos", () => {
-    render(<App />)
+    renderWithProviders(<App />)
     // const viteLogo = screen.getByAltText("Vite logo")
     // const reactLogo = screen.getByAltText("React logo")
     // expect(viteLogo).toBeInTheDocument()

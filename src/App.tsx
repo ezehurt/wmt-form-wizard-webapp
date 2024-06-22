@@ -3,7 +3,6 @@ import type { MenuProps } from "antd"
 import { Layout, Menu, theme } from "antd"
 import Footer from "./components/layout/footer/Footer"
 import Loader from "./components/loader/Loader"
-import QCWidgetPanel from "./components/layout/qc-widget-panel/QCWidgetPanel"
 
 import ParametersPanel from "./components/layout/parameters-panel/ParametersPanel"
 import {
@@ -91,10 +90,10 @@ const App: React.FC = () => {
             >
               <main className="main-content">
                 <section className="main-content__section">
-                  <QCWidgetPanel
+                  {/* <QCWidgetPanel
                     params={data?.parameters}
                     data={paramsData as unknown}
-                  ></QCWidgetPanel>
+                  ></QCWidgetPanel> */}
                   <ParametersPanel
                     params={data?.parameters}
                     data={paramsData as unknown}

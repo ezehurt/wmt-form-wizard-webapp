@@ -47,3 +47,22 @@
     }
   }
 }
+
+.form-main-container {
+  &--vertical {
+    @extend .main-content__section;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    overflow: auto;
+  }
+
+  &--horizontal {
+    @extend .main-content__section;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    overflow: auto;
+  }
+  background-color: red !important;
+}
